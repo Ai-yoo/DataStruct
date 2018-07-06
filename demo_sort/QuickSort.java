@@ -1,50 +1,48 @@
-package demo_sort;
+package test.array;
 
-import java.util.Random;
-
+/**
+ * Created with IDEA
+ *
+ * @author duzhentong
+ * @Date 2018/7/1
+ * @Time 10:24
+ */
 public class QuickSort {
-	public static void main(String[] args) {
-		Random r=new Random();
-		int a[]=new int[10000];
-		for(int i=0;i<10000;i++){
-			a[i]=r.nextInt(10000);
-		}
-		long begin=System.currentTimeMillis();
-		sort(a,0,a.length-1);
-		long end=System.currentTimeMillis();
-		System.out.println(end-begin);
-//		for (int i = 0; i < a.length; i++) {
-//			System.out.println(a[i]);
-//		}
-	}
 
-	public static void sort(int[] a, int low, int hight) {
-		int i, j, index;
-		if (low > hight) {
-			return;
-		}
-		i = low;
-		j = hight;
-		index = a[i];
-		while (i < j) {
-			while (i < j && a[j] >= index) {
-				j--;
-			}
-			if (i < j) {
-				a[i++] = a[j];
-			}
+    public static void main(String[] args) {
+        int[] arr = {3, 2, 4, 5, 7, 1, 10, 4, 4, 4};
+        sort(arr, 0, arr.length - 1);
+        for (int i : arr) {
+            System.out.print(i + ",");
+        }
+    }
 
-			while (i < j && a[i] < index) {
-				i++;
-			}
-			if (i < j) {
-				a[j--] = a[i];
-			}
+    public static void sort(int[] arr, int l, int r) {
+        if (l < r) {
+            int p = par(arr, l, r);
+            sort(arr, l, p - 1);
+            sort(arr, p + 1, r);}
+    }
 
-		}
-		a[i] = index;
-		sort(a, low, i - 1);
-		sort(a, i + 1, hight);
-	}
+    public static int par(int[] arr, int l, int r) {
+        int less = l - 1;
+        int p = arr[r];
+        /**
+         * 如果每遍历的一个数，大于划分值，直接跳到下一个数，小于等于划分值，
+         * 就把小于等于区的下一个数和当前数交换后再遍历下一个数
+         */
+        for (int i = l; i <= r; i++) {
+            if (arr[i] <= p) {
+                swap(arr, ++less, i);
+            }
+        }
+        return less;
 
+    }
+
+    public static void swap(int[] arr, int m, int n) {
+        int temp = arr[m];
+        arr[m] = arr[n];
+        arr[n] = temp;
+    }
 }
